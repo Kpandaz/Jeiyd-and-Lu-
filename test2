@@ -1,0 +1,67 @@
+var canvas = document.getElementById("canvas"); 
+var context = canvas.getContext("2d");
+var image = new Image();
+
+
+
+
+image.src = "images/shapes.png";
+image.onload = addImage;
+
+drawBackground();
+
+function addImage (){
+	context.addImage(image, 0 ,0);
+}
+
+canvas.addEventListener("mousemove", drawTriangle);
+
+
+function drawBackground(){
+	addImage;
+
+}
+
+
+
+function drawTriangle(e){
+
+	context.clearRect(0,0,600,300);
+	context.addImage(image, 0, 0); 
+	var loc = windowToCanvas(canvas, e.clientX, e.clientY);
+
+	var adjustX = loc.x - 10
+	var adjustY = loc.y - 50
+
+    
+
+	console.log(loc.x+loc.y);
+	context.beginPath();
+
+
+
+	context.moveTo(adjustX,adjustY);
+	context.lineTo(adjustX + 100 / 2, adjustY + 100);
+	context.lineTo(adjustX - 100 / 2, adjustY + 100);
+	context.closePath();
+
+    context.lineWidth = 6;
+	context.fillStyle = '#ccc';
+
+	context.strokeStyle = "red";
+
+	context.stroke();
+
+
+
+function windowToCanvas(canvas, x, y){
+    //must convert the mouse coordinates from the window to the coordinates on the canvas
+    var bbox = canvas.getBoundingClientRect();
+    return {x: x - bbox.left * (canvas.width/bbox.width),
+            y: y - bbox.top * (canvas.height/bbox.height)
+           }
+      }
+    
+function randRange (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
